@@ -20,7 +20,7 @@ class ReportTile extends StatelessWidget {
   
 
   late String _title, _subtitle;
-  late String _time;
+  late  String _time;
   var _reportState;
 
   late Widget label;
@@ -32,30 +32,16 @@ class ReportTile extends StatelessWidget {
 
         _title = _title.length > 20 ? _title.substring(0, 15) +'...' : _title;
         _subtitle = _subtitle.length > 22 ? _subtitle.substring(0, 20)+'...' : _subtitle;
+       // _time = 
 
-         var rng = Random();
-          switch(rng.nextInt(3)){
-            case 0:{
-              label = buildProgressLabel();
-              icon = blueIcon;
-              break;
-            }
-            case 1:{
-              label = buildCompleteLabel();
-              icon = redIcon;
-              break;
-            }
-            case 2:{
-              label = buildCancelledLabel();
-              icon = orangeIcon;
-              break;
-            }
-          }
+         
       }
       //: super(key: key);
 
   @override
   Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
+
     return Container(
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Color.fromARGB(255, 202, 202, 202)))
@@ -68,48 +54,64 @@ class ReportTile extends StatelessWidget {
           
           
           Padding(
-            padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  _title,
-                  style: h2Style,
-                ),
-                Text(
-                  _subtitle,
-                  style: h3Style,
-                ),
-                Text(
-                  _time,
-                  style: h4Style,
-                ),
-              ],
+            padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+            child: SizedBox(
+              width: size.width*.5,
+              child: Column(
+                
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    _title,
+                    style: h2Style,
+                  ),
+                  Text(
+                    _subtitle,
+                    style: h3Style,
+                  ),
+                  Text(
+                  _time
+                    ,
+                    style: h4Style,
+                  ),
+                ],
+              ),
             ),
           ),
-          label
-          // ClipRRect(
-          //   child: Container(
-          //     padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-          //     decoration: BoxDecoration(
-          //         borderRadius: const BorderRadius.all(Radius.circular(50)),
-          //         border: Border.all(color: Colors.green)),
-          //     child: const Text(
-          //       "Terminado",
-          //       style: TextStyle(color: Colors.green, fontSize: 18),
-          //     ),
-          //   ),
-          // )
+          buildLabel(size.width*.3)
+   
         ],
       ),
     );
   }
 
-  Widget buildCompleteLabel(){
+  Widget buildLabel(width){
+     switch(Random().nextInt(3)){
+            case 0:{
+              label = buildProgressLabel(width);
+              icon = blueIcon;
+              break;
+            }
+            case 1:{
+              label = buildCompleteLabel(width);
+              icon = redIcon;
+              break;
+            }
+            case 2:{
+              label = buildCancelledLabel(width);
+              icon = orangeIcon;
+              break;
+            }
+          }
+          return label;
+  }
+
+  Widget buildCompleteLabel(width){
         return 
           ClipRRect(
             child: Container(
+              width: width,
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(50)),
@@ -122,10 +124,11 @@ class ReportTile extends StatelessWidget {
           );
   }
 
-  Widget buildProgressLabel(){
+  Widget buildProgressLabel(width){
         return 
           ClipRRect(
             child: Container(
+              width: width,
               padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(50)),
@@ -138,10 +141,11 @@ class ReportTile extends StatelessWidget {
           );
   }
 
-  Widget buildCancelledLabel(){
+  Widget buildCancelledLabel(width){
         return 
           ClipRRect(
             child: Container(
+              width: width,
               padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(50)),

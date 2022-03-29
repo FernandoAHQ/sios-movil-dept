@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sios_v1/providers/providerReports.dart';
+import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/providers/providerSockets.dart';
 import 'package:sios_v1/providers/providerUserData.dart';
 import 'package:sios_v1/screens/reports/generateReport.dart';
@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
             create: (context) => ProviderUserData()),
         ChangeNotifierProvider<ProviderSocket>(
             create: (context) => ProviderSocket()),        
-        ChangeNotifierProvider<ProviderReports>(
-            create: (context) => ProviderReports()),
+        ChangeNotifierProvider<ProviderServices>(
+            create: (context) => ProviderServices()),
       ],
       child: MaterialApp(
         title: 'SIOS V1',

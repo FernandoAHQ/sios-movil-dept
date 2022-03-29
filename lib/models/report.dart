@@ -5,7 +5,7 @@ class Report {
   String? description;
   String? category;
   bool? isAssigned;
-  DateTime? createdAt;
+  String? createdAt;
 
   Report(
       {this.sId,

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sios_v1/models/authData.dart';
-import 'package:sios_v1/providers/providerReports.dart';
+import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/providers/providerUserData.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
@@ -30,7 +30,7 @@ class ProviderSocket with ChangeNotifier {
     try {
       // Configure socket transports must be sepecified
       socket = IO.io(
-          'https://sios-server.herokuapp.com/',
+          'http://sios-server.herokuapp.com/',
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .enableForceNew()
@@ -43,7 +43,7 @@ class ProviderSocket with ChangeNotifier {
 
       // Handle socket events
       socket.onConnect((_) {
-        _context.read<ProviderReports>().resetReports();
+        _context.read<ProviderServices>().resetServices();
         print('connect: ${socket.id}');
         _serverStatus = ServerStatus.Online;
       });
@@ -79,7 +79,9 @@ class ProviderSocket with ChangeNotifier {
   handleReportList(BuildContext context, data) async {
     //print("HANDLE XD");
     print(data[0].toString());
-    context.read<ProviderReports>().readReports(data);
+    if(data!=null){
+      context.read<ProviderServices>().readServices(data);
+    }
     notifyListeners();
   }
 
@@ -111,7 +113,7 @@ class ProviderSocket with ChangeNotifier {
   void sendReport({required String title, required String description, required String category, }){
       var report = {
         'to': '621c19019cef936ea47c9645',
-        'from': user.department?.sId,
+        'from': user.user?.sId,
         'report': {
           'title': title,
           'description':description,

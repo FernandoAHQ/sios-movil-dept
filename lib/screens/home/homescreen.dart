@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sios_v1/constants.dart';
 import 'package:sios_v1/models/authData.dart';
-import 'package:sios_v1/providers/providerReports.dart';
+import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/providers/providerSockets.dart';
 import 'package:sios_v1/providers/providerUserData.dart';
 import 'package:sios_v1/screens/reports/generateReport.dart';
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //WRITE METHOD IN PROVIDER TO LOG OUT!!!!
                   context.read<ProviderUserData>().logout(),
                   context.read<ProviderSocket>().disconnectFromServer(),
-                  context.read<ProviderReports>().resetReports(),
+                  context.read<ProviderServices>().resetServices(),
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

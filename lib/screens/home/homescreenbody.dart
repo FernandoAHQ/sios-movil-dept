@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sios_v1/components/reportTile.dart';
 import 'package:sios_v1/main.dart';
 import 'package:sios_v1/models/report.dart';
-import 'package:sios_v1/providers/providerReports.dart';
+import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/style.dart';
 
 import '../../providers/providerUserData.dart';
@@ -24,10 +24,10 @@ class HomeScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      print("HS BODY");
-    final reportProvider = Provider.of<ProviderReports>(context);
+    final reportProvider = Provider.of<ProviderServices>(context);
     //int _notificationCounter = ;
 
-    print(reportProvider.getReports().length);
+    print(reportProvider.getServices().length);
 
     Size size = MediaQuery.of(context).size;
 
@@ -105,7 +105,7 @@ class HomeScreenBody extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      reportProvider.getReports().length.toString(),
+                      reportProvider.getServices().length.toString(),
                       style: const TextStyle(
                           color: mainColor,
                           fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class HomeScreenBody extends StatelessWidget {
               color: Colors.white,
               
               border:  Border.all(color: Colors.white, width: 10)),
-          child: buildListView(context, reportProvider.getReports().length),
+          child: buildListView(context, reportProvider.getServices().length),
         )),
       ]),
     );
@@ -138,10 +138,10 @@ class HomeScreenBody extends StatelessWidget {
   Widget buildListView(BuildContext context, int ctr) => ListView.builder(
         itemCount: ctr,
         itemBuilder: (BuildContext context, int index) {
-          Report rpt = context.read<ProviderReports>().getReports().elementAt(index);
+          Report rpt = context.read<ProviderServices>().getServices().elementAt(index).getReport();
           String? _title = rpt.title;//"Report Title: " + (index+1).toString();
           String? _cat = rpt.category;
-          var _time = rpt.createdAt!.toLocal().toString();//"Vie. 28 Feb, 2:35 pm";
+          var _time = rpt.createdAt!;//"Vie. 28 Feb, 2:35 pm";
 
           return GestureDetector(
               child: ReportTile(_title!, _cat!, _time,

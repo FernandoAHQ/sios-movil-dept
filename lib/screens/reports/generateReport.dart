@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sios_v1/providers/providerReports.dart';
+import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/providers/providerSockets.dart';
 import 'package:sios_v1/style.dart';
 
@@ -62,11 +62,12 @@ class _GenerateReportState extends State<GenerateReport> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text("Crear un Reporte", style: TextStyle(fontSize: 36.0),),
-                                  //const SizedBox(height: 5.0,),
                                   const Icon(Icons.report_problem,
                                         color: Colors.white,
                                         size: 80.0,),
+                                  const Text("Crear un Reporte", style: TextStyle(fontSize: 36.0),),
+                                  //const SizedBox(height: 5.0,),
+                                  
                                   const SizedBox(height: 25.0,),
 
                                   TextFormField(

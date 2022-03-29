@@ -110,6 +110,9 @@ class _ViewReportBodyState extends State<ViewReportBody> {
   Widget buildReportView(Size _size){
     
     String _desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed imperdiet nunc. Nulla in diam sed orci aliquet commodo. Praesent molestie sed neque at bibendum. Curabitur ut sollicitudin justo. In hendrerit eros quam, at luctus tortor dictum sed. Maecenas non dui sapien. Quisque vitae quam sed tellus laoreet euismod sed non ex. Proin at enim vitae purus ultricies volutpat at sed magna. Donec lacinia aliquet libero vitae gravida. Nulla lorem libero, pulvinar id molestie quis, semper ut nisl. Aliquam venenatis tincidunt sapien id lobortis. Donec ac ultrices nulla, ac ultricies eros. Quisque placerat ex id dignissim lobortis. Quisque enim purus, fermentum quis ligula in, vestibulum vulputate ante. Nunc ex mauris, porttitor in molestie sed, interdum quis nibh.";
+    
+    String _time = _report.createdAt.toString();
+    if(_time.length > 12) _time = _time.substring(0, 10);
     return SizedBox(
       width: _size.width * 0.8,
       child: Column(
@@ -127,7 +130,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
               Column(
                 children: [
                   Text(_report.category!, style: h3Style,),
-                  const Text("Hora aquí", style: h4Style,),
+                   Text(_time,  overflow: TextOverflow.ellipsis, style: h4Style,),
                 ],
               ),
               const SizedBox(width: 50.0),
