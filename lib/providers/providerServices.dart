@@ -7,6 +7,7 @@ class ProviderServices with ChangeNotifier {
 
    // late List<dynamic> reportsList;
     late List<Service> services = [];
+    late List<String> categories = [];
 
   String? sId;
   String? department;
@@ -22,8 +23,8 @@ class ProviderServices with ChangeNotifier {
         Service newService = Service(
           sId:       (data[i]['_id']).toString(),
           createdAt: (data[i]['createdAt']).toString(),
-          updatedAt: (data[i]['createdAt']).toString(),
-          status:    (data[i]['createdAt']).toString(),
+          updatedAt: (data[i]['updatedAt']).toString(),
+          status:    (data[i]['status']).toString(),
           report: Report(
             sId:          (data[i]['report']['_id']).toString(),
             department:   (data[i]['report']['department']).toString(),
@@ -44,6 +45,10 @@ class ProviderServices with ChangeNotifier {
 
       void resetServices(){
         services = [];
+      }
+
+      List<String> getCategories(){
+        return categories;
       }
 
       List<dynamic> getServices(){

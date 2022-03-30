@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:sios_v1/models/authData.dart';
+import 'package:sios_v1/services/httpService.dart';
 
 class ProviderUserData with ChangeNotifier {
   String accessToken = "";
@@ -50,16 +51,9 @@ class ProviderUserData with ChangeNotifier {
 //   print(accessToken);
     notifyListeners();
 
-    final response;
     try {
       print("SENDING TOKEN");
-      response = await http.get(
-        Uri.parse('https://sios-server.herokuapp.com/api/auth/renew'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $accessToken',
-        },
-      );
+      final response = await HTTPService().sendToken(accessToken);
 
       if (response.statusCode == 200) {
         final Map parsedData = jsonDecode(response.body);
@@ -86,17 +80,7 @@ class ProviderUserData with ChangeNotifier {
     notifyListeners();
     final response;
     try {
-      print("SENDING LOGIN DATA");
-      response = await http.post(
-        Uri.parse('https://sios-server.herokuapp.com/api/auth/login'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'username': username,
-          'password': password,
-        }),
-      );
+      response = await HTTPService().sendAuthData(username, password);
 
       print(response.statusCode);
 

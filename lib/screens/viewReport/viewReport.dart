@@ -13,18 +13,20 @@ import 'package:sios_v1/screens/reports/heroRoute.dart';
 import 'package:sios_v1/screens/viewReport/viewReportBody.dart';
 import 'package:sios_v1/style.dart';
 
+import '../../models/service.dart';
+
 class ViewReport extends StatefulWidget {
-  late Report _report;
-  ViewReport(this._report);
+  late Service _service;
+  ViewReport(this._service);
 
   @override
-  State<ViewReport> createState() => _ViewReportState(_report);
+  State<ViewReport> createState() => _ViewReportState(_service);
 }
 
 class _ViewReportState extends State<ViewReport> {
   late BuildContext _context;
-  late Report report;
-  _ViewReportState(this.report);
+  late Service service;
+  _ViewReportState(this.service);
   
   @override
   void initState() {
@@ -53,7 +55,7 @@ class _ViewReportState extends State<ViewReport> {
       ),
       //   body: Image(image:NetworkImage(providerUser.data.user?.image ?? "")),
 
-      body: ViewReportBody(report),
+      body: ViewReportBody(service),
     );
   }
 

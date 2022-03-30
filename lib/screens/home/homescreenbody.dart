@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,8 +8,10 @@ import 'package:sios_v1/components/reportTile.dart';
 import 'package:sios_v1/main.dart';
 import 'package:sios_v1/models/report.dart';
 import 'package:sios_v1/providers/providerServices.dart';
+import 'package:sios_v1/services/httpService.dart';
 import 'package:sios_v1/style.dart';
 
+import '../../models/service.dart';
 import '../../providers/providerUserData.dart';
 import '../reports/generateReport.dart';
 import '../viewReport/viewReport.dart';
@@ -21,9 +24,11 @@ class HomeScreenBody extends StatelessWidget {
 
   //  String profilePic = providerUser.data.user != null ? providerUser.data.user!.image: "";
 
+
+
   @override
   Widget build(BuildContext context) {
-     print("HS BODY");
+
     final reportProvider = Provider.of<ProviderServices>(context);
     //int _notificationCounter = ;
 
@@ -51,8 +56,8 @@ class HomeScreenBody extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                   width: 60,
                   height: 60,
-                  image: //"https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc",
-                      context.read<ProviderUserData>().data.user?.image ?? "",
+//                  image: "https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc",
+                  image: context.read<ProviderUserData>().data.user?.image ?? "",
                   placeholder: 'assets/images/profilePlaceholder.png',
                 ),
                 borderRadius: BorderRadius.circular(50),
@@ -127,10 +132,10 @@ class HomeScreenBody extends StatelessWidget {
     );
   }
 
-  void viewReport(BuildContext context, Report _rpt){
+  void viewReport(BuildContext context, Service _srv){
          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ViewReport(_rpt)),
+            MaterialPageRoute(builder: (context) => ViewReport(_srv)),
           );
   }
 
@@ -138,15 +143,16 @@ class HomeScreenBody extends StatelessWidget {
   Widget buildListView(BuildContext context, int ctr) => ListView.builder(
         itemCount: ctr,
         itemBuilder: (BuildContext context, int index) {
-          Report rpt = context.read<ProviderServices>().getServices().elementAt(index).getReport();
-          String? _title = rpt.title;//"Report Title: " + (index+1).toString();
-          String? _cat = rpt.category;
-          var _time = rpt.createdAt!;//"Vie. 28 Feb, 2:35 pm";
+          Service _service = context.read<ProviderServices>().getServices().elementAt(index);
+          Report _report = _service.getReport();
+          String? _title = _report.title;//"Report Title: " + (index+1).toString();
+          String? _cat = _report.category;
+          var _time = _report.createdAt!;//"Vie. 28 Feb, 2:35 pm";
 
           return GestureDetector(
               child: ReportTile(_title!, _cat!, _time,
-              ReportState.Asignado),
-              onTap: ()=> viewReport(context, rpt),
+              _service.status),
+              onTap: ()=> viewReport(context, _service),
           );
         },
       );

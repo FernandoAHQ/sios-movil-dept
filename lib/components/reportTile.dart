@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sios_v1/components/statusLabel.dart';
 import 'package:sios_v1/style.dart';
 
 enum ReportPriority {
@@ -21,7 +22,7 @@ class ReportTile extends StatelessWidget {
 
   late String _title, _subtitle;
   late  String _time;
-  var _reportState;
+  String _reportState;
 
   late Widget label;
 
@@ -46,7 +47,7 @@ class ReportTile extends StatelessWidget {
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Color.fromARGB(255, 202, 202, 202)))
       ),
-      padding: const EdgeInsets.fromLTRB(15, 10, 15, 15),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,7 +55,7 @@ class ReportTile extends StatelessWidget {
           
           
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+            padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
             child: SizedBox(
               width: size.width*.5,
               child: Column(
@@ -79,83 +80,13 @@ class ReportTile extends StatelessWidget {
               ),
             ),
           ),
-          buildLabel(size.width*.3)
+          StatusLabel(state: _reportState, width: size.width*.35)
    
         ],
       ),
     );
   }
 
-  Widget buildLabel(width){
-     switch(Random().nextInt(3)){
-            case 0:{
-              label = buildProgressLabel(width);
-              icon = blueIcon;
-              break;
-            }
-            case 1:{
-              label = buildCompleteLabel(width);
-              icon = redIcon;
-              break;
-            }
-            case 2:{
-              label = buildCancelledLabel(width);
-              icon = orangeIcon;
-              break;
-            }
-          }
-          return label;
-  }
-
-  Widget buildCompleteLabel(width){
-        return 
-          ClipRRect(
-            child: Container(
-              width: width,
-              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(50)),
-                  border: Border.all(color: Colors.green)),
-              child: const Text(
-                "Terminado",
-                style: TextStyle(color: Colors.green, fontSize: 18),
-              ),
-            ),
-          );
-  }
-
-  Widget buildProgressLabel(width){
-        return 
-          ClipRRect(
-            child: Container(
-              width: width,
-              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(50)),
-                  border: Border.all(color: Colors.orange)),
-              child: const Text(
-                "En Progreso",
-                style: TextStyle(color: Colors.orange, fontSize: 18),
-              ),
-            ),
-          );
-  }
-
-  Widget buildCancelledLabel(width){
-        return 
-          ClipRRect(
-            child: Container(
-              width: width,
-              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(50)),
-                  border: Border.all(color: Colors.red)),
-              child: const Text(
-                "Cancelado",
-                style: TextStyle(color: Colors.red, fontSize: 18),
-              ),
-            ),
-          );
-  }
+ 
 
 }
