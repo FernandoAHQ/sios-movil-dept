@@ -18,7 +18,6 @@ class Service {
   });
 
   Report getReport(){
-    print(report.toString());
     return report;
   }
  

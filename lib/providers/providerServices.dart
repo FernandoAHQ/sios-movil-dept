@@ -1,7 +1,12 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:sios_v1/models/report.dart';
 import 'package:sios_v1/models/service.dart';
+
+import '../services/httpService.dart';
 
 class ProviderServices with ChangeNotifier {
 
@@ -42,6 +47,29 @@ class ProviderServices with ChangeNotifier {
       } 
      // reportsList = data;
     }
+
+    Future loadCategories() async {
+    final Response response;
+    
+      response = await HTTPService().getCategories();
+      print('GET CATEGORIES: ' + response.statusCode.toString());
+
+    //  print(response.statusCode);
+  if (response.statusCode == 201) {
+        final Map parsedData = jsonDecode(response.body);
+        for(int i = 0; i < parsedData['categories'].length; i++){
+          categories.add(parsedData['categories'][i]);
+        }
+//        categories = parsedData['categories'];
+
+        //  notifyListeners();
+        }else{
+        categories = [];
+        }
+      }
+  
+ 
+
 
       void resetServices(){
         services = [];

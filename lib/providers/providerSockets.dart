@@ -78,7 +78,7 @@ class ProviderSocket with ChangeNotifier {
   // Listen to Location updates of connected usersfrom server
   handleReportList(BuildContext context, data) async {
     //print("HANDLE XD");
-    print(data[0].toString());
+    //print(data[0].toString());
     if(data!=null){
       context.read<ProviderServices>().readServices(data);
     }

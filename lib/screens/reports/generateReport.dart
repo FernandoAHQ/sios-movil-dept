@@ -289,12 +289,15 @@ Widget _buildPopupDialog(BuildContext context) {
 }
 
 List<DropdownMenuItem<String>> get dropOptions{
-  List<DropdownMenuItem<String>> menuItems = const [
-    DropdownMenuItem(child: Text("Eliga una Categoría"),value: "null"),
-    DropdownMenuItem(child: Text("Conectividad"),value: "conn"),
-    DropdownMenuItem(child: Text("Mantenimiento"),value: "mtto"),
-    DropdownMenuItem(child: Text("Otro"),value: "other"),
-  ];
+  List cats = context.read<ProviderServices>().getCategories();
+  List<DropdownMenuItem<String>> menuItems = [];
+  menuItems.add(const DropdownMenuItem(child: Text("Seleccionar"), value: "null"));
+   
+  for(int i = 0; i < cats.length; i++){
+    menuItems.add(
+      DropdownMenuItem(child: Text(cats[i].toString()), value: cats[i].toString(),)
+    );
+  }
   return menuItems;
 }
 

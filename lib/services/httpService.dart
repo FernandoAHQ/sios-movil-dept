@@ -7,7 +7,14 @@ class HTTPService{
 
 final String urlBase = 'https://sios-server.herokuapp.com/api';
 
-  
+  Future<Response> getCategories() async{
+    return await http.get(
+        Uri.parse('$urlBase/reports/categories'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        }
+      );
+  }
 
   Future<Response> sendAuthData(String usr, String pass) async {
     return await http.post(

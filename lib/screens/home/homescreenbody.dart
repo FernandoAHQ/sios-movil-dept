@@ -22,22 +22,17 @@ class HomeScreenBody extends StatelessWidget {
 
 
 
-  //  String profilePic = providerUser.data.user != null ? providerUser.data.user!.image: "";
-
-
-
   @override
   Widget build(BuildContext context) {
 
     final reportProvider = Provider.of<ProviderServices>(context);
-    //int _notificationCounter = ;
 
-    print(reportProvider.getServices().length);
 
     Size size = MediaQuery.of(context).size;
 
     return Container(
       width: size.width,
+      height: size.height,
       decoration: const BoxDecoration(
         color: mainColor,
         border: Border(
@@ -89,47 +84,87 @@ class HomeScreenBody extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
-            child: Container(
+        DefaultTabController(
+          length: 2,
+          child: Column(
+            children: [
+              ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
+              child: Row(
+                  children: [
+                   buildTabBar(size, reportProvider), 
+                  ],
+               )
+              ),
+              Container(
+                decoration: const BoxDecoration(color: Colors.white),
+                height: 540,
+                width: size.width,
+                child: TabBarView(
+                  
+                  children: [
+                    buildListView(context, reportProvider.getServices()),
+                    buildListView(context, [])
+                ],
+                        ),
+              ),
+                
+               
+                
+            ],
+          )
+        ),
+        
+      ]),
+    );
+  }
+
+  Container buildTabBar(Size size, ProviderServices reportProvider) {
+    return Container(
                 padding: const EdgeInsets.fromLTRB(35, 20, 35, 5),
                 height: 80,
                 width: size.width,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: const BoxDecoration(border: BorderDirectional(bottom: BorderSide(color: Colors.black, width: 2))),
-                      child: const Text(
+                child: TabBar(tabs: [
+                  //Row(
+               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 // children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:[
+                        const Text(
                         "Hoy",
                         style: h2Style,
                       ),
+                      const SizedBox(width: 10),
+                      Container(
+                        alignment: AlignmentDirectional.center,
+                        width: 28, height: 28,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: mainColor),
+                        child: Text(
+                        reportProvider.getServices().length.toString(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 24),
                     ),
-                    Text(
-                      reportProvider.getServices().length.toString(),
-                      style: const TextStyle(
-                          color: mainColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28),
-                    )
+                      )
+                      ] 
+                    ),
+                      Container(
+                      child: const Text(
+                        "Historial",
+                        style: h2Style,
+                      ),
+                    ),
+                    
                   ],
-                ))),
-        Expanded(
-            child: Container(
-          height: 200.0,
-          decoration: BoxDecoration(
-
-              color: Colors.white,
-              
-              border:  Border.all(color: Colors.white, width: 10)),
-          child: buildListView(context, reportProvider.getServices().length),
-        )),
-      ]),
-    );
+              //  )
+                //]
+                )
+                );
   }
 
   void viewReport(BuildContext context, Service _srv){
@@ -140,20 +175,23 @@ class HomeScreenBody extends StatelessWidget {
   }
 
 
-  Widget buildListView(BuildContext context, int ctr) => ListView.builder(
-        itemCount: ctr,
-        itemBuilder: (BuildContext context, int index) {
-          Service _service = context.read<ProviderServices>().getServices().elementAt(index);
-          Report _report = _service.getReport();
-          String? _title = _report.title;//"Report Title: " + (index+1).toString();
-          String? _cat = _report.category;
-          var _time = _report.createdAt!;//"Vie. 28 Feb, 2:35 pm";
+  Widget buildListView(BuildContext context, List<dynamic> services) {
 
-          return GestureDetector(
-              child: ReportTile(_title!, _cat!, _time,
-              _service.status),
-              onTap: ()=> viewReport(context, _service),
+
+    return ListView.builder(
+            itemCount: services.length,
+            itemBuilder: (BuildContext context, int index) {
+              Service _service = services.elementAt(index);
+              Report _report = _service.getReport();
+              String? _title = _report.title;//"Report Title: " + (index+1).toString();
+              String? _cat = _report.category;
+              var _time = _report.createdAt!;//"Vie. 28 Feb, 2:35 pm";
+      
+              return GestureDetector(
+                  child: ReportTile(_title!, _cat!, _time, _service.status),
+                  onTap: ()=> viewReport(context, _service),
+              );
+            },
           );
-        },
-      );
+  }
 }

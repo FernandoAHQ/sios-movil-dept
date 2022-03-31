@@ -31,6 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<ProviderUserData>(context, listen: false);
       //        providerUser.resetToken();
       //      print("LOGIN FORM, TOKEN RESET");
+        final reportProvider = Provider.of<ProviderServices>(context , listen: false);
+        reportProvider.loadCategories();
 
       context.read<ProviderSocket>().connectToServer(context);
     });
@@ -45,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _context = context;
 
     return Scaffold(
+      
       backgroundColor: mainColor,
       floatingActionButton: FloatingActionButton(
 

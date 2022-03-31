@@ -120,10 +120,11 @@ class _ViewReportBodyState extends State<ViewReportBody> {
           ),
           const SizedBox(height: 30.0,),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+            child: Container(
+              width: _size.width * .8,
               child: SingleChildScrollView(
-                child: Column(
+                child: Column( 
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Descripción:", style: descStyle,),
