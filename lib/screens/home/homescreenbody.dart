@@ -17,16 +17,11 @@ import '../reports/generateReport.dart';
 import '../viewReport/viewReport.dart';
 
 class HomeScreenBody extends StatelessWidget {
-   HomeScreenBody({Key? key}) : super(key: key);
-
-
-
+  HomeScreenBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final reportProvider = Provider.of<ProviderServices>(context);
-
 
     Size size = MediaQuery.of(context).size;
 
@@ -36,8 +31,7 @@ class HomeScreenBody extends StatelessWidget {
       decoration: const BoxDecoration(
         color: mainColor,
         border: Border(
-            top: BorderSide(width: 6.0, color: mainColor),
-
+          top: BorderSide(width: 6.0, color: mainColor),
         ),
       ),
       child: Column(children: [
@@ -52,7 +46,8 @@ class HomeScreenBody extends StatelessWidget {
                   width: 60,
                   height: 60,
 //                  image: "https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc",
-                  image: context.read<ProviderUserData>().data.user?.image ?? "",
+                  image:
+                      context.read<ProviderUserData>().data.user?.image ?? "",
                   placeholder: 'assets/images/profilePlaceholder.png',
                 ),
                 borderRadius: BorderRadius.circular(50),
@@ -66,14 +61,14 @@ class HomeScreenBody extends StatelessWidget {
 
                 children: [
                   const Text("Hola",
-                        style: TextStyle(color: Colors.white, fontSize: 18)),
-                  
+                      style: TextStyle(color: Colors.white, fontSize: 18)),
                   Text(
                     context.read<ProviderUserData>().data.user?.name ?? "",
                     style: headStyle,
                   ),
-                   Text(
-                    context.read<ProviderUserData>().data.department?.name ?? "",
+                  Text(
+                    context.read<ProviderUserData>().data.department?.name ??
+                        "",
                     style: h4Style,
                   )
                 ],
@@ -85,113 +80,103 @@ class HomeScreenBody extends StatelessWidget {
           height: 20,
         ),
         DefaultTabController(
-          length: 2,
-          child: Column(
-            children: [
-              ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
-              child: Row(
-                  children: [
-                   buildTabBar(size, reportProvider), 
-                  ],
-               )
-              ),
-              Container(
-                decoration: const BoxDecoration(color: Colors.white),
-                height: 540,
-                width: size.width,
-                child: TabBarView(
-                  
-                  children: [
-                    buildListView(context, reportProvider.getServices()),
-                    buildListView(context, [])
-                ],
-                        ),
-              ),
-                
-               
-                
-            ],
-          )
-        ),
-        
+            length: 2,
+            child: Column(
+              children: [
+                ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(50)),
+                    child: Row(
+                      children: [
+                        buildTabBar(size, reportProvider),
+                      ],
+                    )),
+                Container(
+                  decoration: const BoxDecoration(color: Colors.white),
+                  height: 540,
+                  width: size.width,
+                  child: TabBarView(
+                    children: [
+                      buildListView(context, reportProvider.getServices()),
+                      buildListView(context, reportProvider.getHistory())
+                    ],
+                  ),
+                ),
+              ],
+            )),
       ]),
     );
   }
 
   Container buildTabBar(Size size, ProviderServices reportProvider) {
     return Container(
-                padding: const EdgeInsets.fromLTRB(35, 20, 35, 5),
-                height: 80,
-                width: size.width,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
+        padding: const EdgeInsets.fromLTRB(35, 20, 35, 5),
+        height: 80,
+        width: size.width,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: TabBar(
+          tabs: [
+            //Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const Text(
+                "Hoy",
+                style: h2Style,
+              ),
+              const SizedBox(width: 10),
+              Container(
+                alignment: AlignmentDirectional.center,
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50), color: mainColor),
+                child: Text(
+                  reportProvider.getServices().length.toString(),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 24),
                 ),
-                child: TabBar(tabs: [
-                  //Row(
-               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 // children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:[
-                        const Text(
-                        "Hoy",
-                        style: h2Style,
-                      ),
-                      const SizedBox(width: 10),
-                      Container(
-                        alignment: AlignmentDirectional.center,
-                        width: 28, height: 28,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: mainColor),
-                        child: Text(
-                        reportProvider.getServices().length.toString(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 24),
-                    ),
-                      )
-                      ] 
-                    ),
-                      Container(
-                      child: const Text(
-                        "Historial",
-                        style: h2Style,
-                      ),
-                    ),
-                    
-                  ],
-              //  )
-                //]
-                )
-                );
+              )
+            ]),
+            Container(
+              child: const Text(
+                "Historial",
+                style: h2Style,
+              ),
+            ),
+          ],
+          //  )
+          //]
+        ));
   }
 
-  void viewReport(BuildContext context, Service _srv){
-         Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ViewReport(_srv)),
-          );
+  void viewReport(BuildContext context, Service _srv) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ViewReport(_srv)),
+    );
   }
-
 
   Widget buildListView(BuildContext context, List<dynamic> services) {
-
-
     return ListView.builder(
-            itemCount: services.length,
-            itemBuilder: (BuildContext context, int index) {
-              Service _service = services.elementAt(index);
-              Report _report = _service.getReport();
-              String? _title = _report.title;//"Report Title: " + (index+1).toString();
-              String? _cat = _report.category;
-              var _time = _report.createdAt!;//"Vie. 28 Feb, 2:35 pm";
-      
-              return GestureDetector(
-                  child: ReportTile(_title!, _cat!, _time, _service.status),
-                  onTap: ()=> viewReport(context, _service),
-              );
-            },
-          );
+      itemCount: services.length,
+      itemBuilder: (BuildContext context, int index) {
+        Service _service = services.elementAt(index);
+        Report _report = _service.getReport();
+        String? _title =
+            _report.title; //"Report Title: " + (index+1).toString();
+        String? _cat = _report.category;
+        var _time = _report.createdAt!; //"Vie. 28 Feb, 2:35 pm";
+
+        return GestureDetector(
+          child: ReportTile(_title!, _cat!, _time, _service.status),
+          onTap: () => viewReport(context, _service),
+        );
+      },
+    );
   }
 }

@@ -20,9 +20,8 @@ class ProviderSocket with ChangeNotifier {
   }
 
   Future connectToServer(BuildContext _context) async {
-
     user = _context.read<ProviderUserData>().data;
-    
+
     String token = await _context.read<ProviderUserData>().getToken();
 
     print('TOKEN: $token');
@@ -30,7 +29,7 @@ class ProviderSocket with ChangeNotifier {
     try {
       // Configure socket transports must be sepecified
       socket = IO.io(
-          'http://sios-server.herokuapp.com/',
+          'http://10.1.25.46:4000/',
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .enableForceNew()
@@ -57,7 +56,7 @@ class ProviderSocket with ChangeNotifier {
         _serverStatus = ServerStatus.Offline;
         if (_context.read<ProviderUserData>().data.isLogged()) {
           //   print(_context.read<ProviderUserData>().data.isLogged());
-         // connectToServer(_context);
+          // connectToServer(_context);
         }
       });
 
@@ -66,8 +65,10 @@ class ProviderSocket with ChangeNotifier {
       print(e.toString());
     }
 
-    socket.on("reports-list", (data) => handleReportList(_context, data));//print("\n\n\n" + data[0]['title'].toString()));
-
+    socket.on(
+        "reports-list",
+        (data) => handleReportList(
+            _context, data)); //print("\n\n\n" + data[0]['title'].toString()));
   }
 
   // Send Location to Server
@@ -79,7 +80,7 @@ class ProviderSocket with ChangeNotifier {
   handleReportList(BuildContext context, data) async {
     //print("HANDLE XD");
     //print(data[0].toString());
-    if(data!=null){
+    if (data != null) {
       context.read<ProviderServices>().readServices(data);
     }
     notifyListeners();
@@ -110,20 +111,25 @@ class ProviderSocket with ChangeNotifier {
     );
   }
 
-  void sendReport({required String title, required String description, required String category, }){
-      var report = {
-        'to': '621c19019cef936ea47c9645',
-        'from': user.user?.sId,
-        'report': {
-          'title': title,
-          'description':description,
-          'category': category
-        }
-      };
-      
-      socket.emit('depto-report', report);
-  //    print(report);
+  void sendReport({
+    required String title,
+    required String description,
+    required String category,
+  }) {
+    var report = {
+      'to': '621c19019cef936ea47c9645',
+      'from': user.user?.sId,
+      'report': {
+        'title': title,
+        'description': description,
+        'category': category
+      }
+    };
+
+    socket.emit('depto-report', report);
+    //    print(report);
   }
+
   // Listen to all message events from connected users
   void handleMessage(Map<String, dynamic> data) {
     print(data);

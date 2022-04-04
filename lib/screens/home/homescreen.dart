@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late BuildContext _context;
- 
 
   @override
   void initState() {
@@ -31,8 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
           Provider.of<ProviderUserData>(context, listen: false);
       //        providerUser.resetToken();
       //      print("LOGIN FORM, TOKEN RESET");
-        final reportProvider = Provider.of<ProviderServices>(context , listen: false);
-        reportProvider.loadCategories();
+      final reportProvider =
+          Provider.of<ProviderServices>(context, listen: false);
+      reportProvider.loadCategories();
+      reportProvider.loadHistory(providerUser.data.user!.sId.toString());
 
       context.read<ProviderSocket>().connectToServer(context);
     });
@@ -47,51 +48,41 @@ class _HomeScreenState extends State<HomeScreen> {
     _context = context;
 
     return Scaffold(
-      
       backgroundColor: mainColor,
       floatingActionButton: FloatingActionButton(
-
         onPressed: () => {
           Navigator.of(context).push(HeroRoute(builder: ((context) {
-              return const GenerateReport();
+            return const GenerateReport();
           })))
-          },
-      backgroundColor: mainColor,
-      foregroundColor: Colors.white,
-      child: const Icon(Icons.add_to_queue),
+        },
+        backgroundColor: mainColor,
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.add_to_queue),
       ),
       appBar: PreferredSize(
-
         preferredSize: const Size.fromHeight(70),
         child: createBar(),
       ),
       //   body: Image(image:NetworkImage(providerUser.data.user?.image ?? "")),
 
-      body:  HomeScreenBody(),
+      body: HomeScreenBody(),
     );
   }
 
   AppBar createBar() {
     return AppBar(
-       shape:const Border(
-    bottom: BorderSide(
-      color: mainColor,
-      width: 4
-    )
-  ),
+      shape: const Border(bottom: BorderSide(color: mainColor, width: 4)),
       elevation: 0,
-     // bottomOpacity: 0,
-     
+      // bottomOpacity: 0,
+
       backgroundColor: mainColor,
-      leading:  IconButton(
-          icon: const Icon(
-            Icons.menu,
-            size: 50,
-          ), 
-          onPressed: () {
-            
-          },
-          ),
+      leading: IconButton(
+        icon: const Icon(
+          Icons.menu,
+          size: 50,
+        ),
+        onPressed: () {},
+      ),
       actions: [
         IconButton(
             onPressed: () => {
@@ -106,7 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
             icon: const Icon(Icons.logout))
       ],
-      
     );
   }
 }

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:http/http.dart';
 import 'package:sios_v1/models/report.dart';
 import 'package:sios_v1/models/service.dart';
@@ -11,8 +12,9 @@ import '../services/httpService.dart';
 class ProviderServices with ChangeNotifier {
 
    // late List<dynamic> reportsList;
-    late List<Service> services = [];
-    late List<String> categories = [];
+  List<Service> history = [];
+  List<Service> services = [];
+  List<String> categories = [];
 
   String? sId;
   String? department;
@@ -68,6 +70,44 @@ class ProviderServices with ChangeNotifier {
         }
       }
   
+      Future loadHistory(String id) async {
+    final Response response;
+    
+      response = await HTTPService().getHistory(id);
+      print('GET HISTORY: ' + response.statusCode.toString());
+
+    //  print(response.statusCode);
+  if (response.statusCode == 200) {
+        final Map data = jsonDecode(response.body);
+        
+         print("FETCHING DATA");
+
+       for(int i = 0; i < data['services'].length; i++){
+           Service newService = Service(
+          sId:       (data['services'][i]['_id']).toString(),
+          createdAt: (data['services'][i]['createdAt']).toString(),
+          updatedAt: (data['services'][i]['updatedAt']).toString(),
+          status:    (data['services'][i]['status']).toString(),
+          report: Report(
+            sId:          (data['services'][i]['report']['_id']).toString(),
+            department:   (data['services'][i]['report']['department']).toString(),
+            title:        (data['services'][i]['report']['title']).toString(), 
+            description:  (data['services'][i]['report']['description']).toString(), 
+            category:     (data['services'][i]['report']['category']).toString(), 
+            isAssigned:   (data['services'][i]['report']['isAssigned']),
+            createdAt:    (data['services'][i]['report']['createdAt']).toString()
+            )
+        );
+        history.add(newService);
+       }
+//        categories = parsedData['categories'];
+
+         notifyListeners();
+        }else{
+          print("HISTORY NOT RECIEVED");
+        }
+      }
+  
  
 
 
@@ -77,6 +117,10 @@ class ProviderServices with ChangeNotifier {
 
       List<String> getCategories(){
         return categories;
+      }
+
+      List<dynamic> getHistory(){
+        return history.reversed.toList();
       }
 
       List<dynamic> getServices(){

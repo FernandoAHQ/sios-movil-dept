@@ -8,30 +8,23 @@ class Service {
   Report report;
 //  AsignedTo asignedTo;
 
-  Service(
-      {required this.sId,
-      required this.status,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.report,
-  //     this.asignedTo
+  Service({
+    required this.sId,
+    required this.status,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.report,
+    //     this.asignedTo
   });
 
-  Report getReport(){
+  Report getReport() {
     return report;
   }
- 
 }
-
- 
-
-
 
 class AsignedTo {
   String id;
   String name;
 
   AsignedTo({required this.id, required this.name});
-
-  
 }
