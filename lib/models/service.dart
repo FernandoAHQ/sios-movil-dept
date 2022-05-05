@@ -6,7 +6,7 @@ class Service {
   String createdAt;
   String updatedAt;
   Report report;
-//  AsignedTo asignedTo;
+  AsignedTo? asignedTo;
 
   Service({
     required this.sId,
@@ -14,7 +14,7 @@ class Service {
     required this.createdAt,
     required this.updatedAt,
     required this.report,
-    //     this.asignedTo
+    required this.asignedTo
   });
 
   Report getReport() {
@@ -23,8 +23,8 @@ class Service {
 }
 
 class AsignedTo {
-  String id;
-  String name;
+  String? name;
+  String? imgUrl;
 
-  AsignedTo({required this.id, required this.name});
+  AsignedTo({required this.name, required this.imgUrl});
 }

@@ -12,6 +12,7 @@ import 'package:sios_v1/style.dart';
 
 import '../../providers/providerUserData.dart';
 import '../reports/calificar/calificarReport.dart';
+import '../reports/calificar/editarReport.dart';
 import '../reports/generateReport.dart';
 import '../reports/heroRoute.dart';
 
@@ -37,7 +38,6 @@ class _ViewReportBodyState extends State<ViewReportBody> {
   
 
 
-  //  String profilePic = providerUser.data.user != null ? providerUser.data.user!.image: "";
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,6 @@ class _ViewReportBodyState extends State<ViewReportBody> {
     
     Report _report = _service.getReport();
 
-    String _desc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sed imperdiet nunc. Nulla in diam sed orci aliquet commodo. Praesent molestie sed neque at bibendum. Curabitur ut sollicitudin justo. In hendrerit eros quam, at luctus tortor dictum sed. Maecenas non dui sapien. Quisque vitae quam sed tellus laoreet euismod sed non ex. Proin at enim vitae purus ultricies volutpat at sed magna. Donec lacinia aliquet libero vitae gravida. Nulla lorem libero, pulvinar id molestie quis, semper ut nisl. Aliquam venenatis tincidunt sapien id lobortis. Donec ac ultrices nulla, ac ultricies eros. Quisque placerat ex id dignissim lobortis. Quisque enim purus, fermentum quis ligula in, vestibulum vulputate ante. Nunc ex mauris, porttitor in molestie sed, interdum quis nibh.";
     
     String _time = _service.createdAt.toString();
     if(_time.length > 12) _time = _time.substring(0, 10);
@@ -114,7 +113,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                    Text(_time,  overflow: TextOverflow.ellipsis, style: h4Style,),
                 ],
               ),
-              const SizedBox(width: 50.0),
+            //  const SizedBox(width: 50.0),
               StatusLabel(state: _service.status),
             ],
           ),
@@ -142,13 +141,13 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                               child: FadeInImage.assetNetwork(
                                  width: 50,
                                  height: 50,
-                                 image: "https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc",//context.read<ProviderUserData>().data.user?.image ?? "",
+                                 image: _service.asignedTo!.imgUrl ?? "",//context.read<ProviderUserData>().data.user?.image ?? "",
                                  placeholder: 'assets/images/profilePlaceholder.png',
                                ),
                               borderRadius: BorderRadius.circular(50),
                            ),
                           const SizedBox(width: 15.0,),
-                          const Text("Niña Tucan #5", style: h3Style,)
+                           Text(_service.asignedTo!.name ?? "", style: h3Style,)
                       ],
                     ),
                       ],
@@ -162,7 +161,8 @@ class _ViewReportBodyState extends State<ViewReportBody> {
               ),
             ),
           ),
-          ElevatedButton(onPressed: calificar, 
+         _report.isAssigned !? 
+                  ElevatedButton(onPressed: ()=>calificar(_service), 
                     
                     style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
@@ -177,16 +177,40 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                         ),
                     child: const Text("Calificar Servicio", style: buttonStyle,),
                   )
+                  :
+                  ElevatedButton(onPressed: () => editar(_report), 
+                    
+                    style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            mainColor
+                          ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              //side: BorderSide(color: Colors.red)
+                            )
+                          )
+                        ),
+                    child: const Text("Editar Servicio", style: buttonStyle,),
+                  )
+                  
         ],
       ),
     );
   }
  
 
-void calificar(){
+void calificar(Service service){
  
           Navigator.of(context).push(HeroRoute(builder: ((context) {
-              return const CalificarReport();
+              return  CalificarReport(service);
+          })));
+        
+}
+void editar(Report rep){
+ 
+          Navigator.of(context).push(HeroRoute(builder: ((context) {
+              return  EditReport(rep);
           })));
         
 }

@@ -1,19 +1,22 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:sios_v1/models/service.dart';
 import 'package:sios_v1/providers/providerSockets.dart';
 import 'package:sios_v1/style.dart';
 
 import '../../../components/starRating.dart';
 
 class CalificarReport extends StatefulWidget {
-  const CalificarReport({Key? key}) : super(key: key);
+  Service service;
+   CalificarReport(this.service, {Key? key}) : super(key: key);
 
   // GenerateReport();
 
   @override
-  State<CalificarReport> createState() => _CalificarReportState();
+  State<CalificarReport> createState() => _CalificarReportState(service);
 }
 
 class _CalificarReportState extends State<CalificarReport> {
@@ -21,6 +24,9 @@ class _CalificarReportState extends State<CalificarReport> {
   late String _comment;
 
   final _formKey = GlobalKey<FormState>();
+  Service service;
+
+  _CalificarReportState(this.service);
 
   set rating(double rating) {}
 
@@ -29,6 +35,7 @@ class _CalificarReportState extends State<CalificarReport> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final _socket = Provider.of<ProviderSocket>(context);
+    int _rating = 5;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -52,7 +59,6 @@ class _CalificarReportState extends State<CalificarReport> {
                       padding: const EdgeInsets.all(20.0),
                       decoration: const BoxDecoration(color: accentColor1),
                       width: size.width * .85,
-                      height: size.height * .4,
                       child: DefaultTextStyle(
                           style: reportFormStyle,
                           child: Column(
@@ -102,13 +108,14 @@ class _CalificarReportState extends State<CalificarReport> {
                                       ),
                                     ),
                                     labelStyle: reportFormStyle2,
-                                    labelText: "Descripión del servicio"),
+                                    labelText: "Comentario"),
                                 onSaved: (value) {
                                   _comment = value.toString();
                                 },
                                 validator: (value) {
-                                  if (value == null || value.isEmpty)
-                                    return "Ingrese la Descripción del Problema";
+                                  if (value == null || value.isEmpty) {
+                                    return "Escriba una retroalimentación del servicio";
+                                  }
                                   return null;
                                 },
                                 maxLines: 4,
@@ -116,12 +123,23 @@ class _CalificarReportState extends State<CalificarReport> {
                               const SizedBox(
                                 height: 15.0,
                               ),
-                              StarRating(
-                                rating: 0,
-                                onRatingChanged: (rating) =>
-                                    setState(() => this.rating = rating),
-                                color: Colors.white,
+                              
+                              RatingBar.builder(
+                                initialRating: 2.5,
+                                minRating: 0.5,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  _rating = (rating*2).toInt();
+                                },
                               ),
+
                               const SizedBox(
                                 height: 15.0,
                               ),
@@ -151,8 +169,7 @@ class _CalificarReportState extends State<CalificarReport> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         _formKey.currentState!.save();
-                                        // _socket.sendReport(title: _title, description: _description, category: _category);
-                                        //_socket.sendReport(_title, _description, _category);
+                                        _socket.rateService(service, _comment, _rating);
                                         Navigator.of(context).pop();
                                       }
                                     },
@@ -180,28 +197,7 @@ class _CalificarReportState extends State<CalificarReport> {
       ),
     );
   }
-
-  Widget _buildPopupDialog(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('Popup example'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("Hello"),
-        ],
-      ),
-      actions: <Widget>[
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          textColor: Theme.of(context).primaryColor,
-          child: const Text('Close'),
-        ),
-      ],
-    );
-  }
+ 
 
   List<DropdownMenuItem<String>> get dropOptions {
     List<DropdownMenuItem<String>> menuItems = const [

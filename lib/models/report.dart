@@ -15,7 +15,7 @@ class Report {
       this.category,
       this.isAssigned,
       this.createdAt}){
-        print(createdAt);
+        print("Asigned: " + isAssigned.toString());
       }
 
   Report.fromJson(Map<String, dynamic> json) {

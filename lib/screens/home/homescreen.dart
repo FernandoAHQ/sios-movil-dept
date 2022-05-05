@@ -8,6 +8,7 @@ import 'package:sios_v1/models/authData.dart';
 import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/providers/providerSockets.dart';
 import 'package:sios_v1/providers/providerUserData.dart';
+import 'package:sios_v1/screens/home/homescreenbody2.dart';
 import 'package:sios_v1/screens/reports/generateReport.dart';
 import 'package:sios_v1/screens/home/homescreenbody.dart';
 import 'package:sios_v1/screens/login/loginScreen.dart';
@@ -28,24 +29,22 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       final providerUser =
           Provider.of<ProviderUserData>(context, listen: false);
-      //        providerUser.resetToken();
-      //      print("LOGIN FORM, TOKEN RESET");
-      final reportProvider =
+       final reportProvider =
           Provider.of<ProviderServices>(context, listen: false);
       reportProvider.loadCategories();
       reportProvider.loadHistory(providerUser.data.user!.sId.toString());
 
       context.read<ProviderSocket>().connectToServer(context);
-    });
-
-    //Future.delayed(Duration.).then((value) => _context.read<ProviderSocket>().connect());
-
+    }); 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     _context = context;
+    Size size = MediaQuery.of(context).size;
+     double appbarHeight = 70;
+
 
     return Scaffold(
       backgroundColor: mainColor,
@@ -60,17 +59,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.add_to_queue),
       ),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
+        preferredSize:  Size.fromHeight(appbarHeight),
         child: createBar(),
       ),
-      //   body: Image(image:NetworkImage(providerUser.data.user?.image ?? "")),
-
+ 
       body: HomeScreenBody(),
     );
   }
 
   AppBar createBar() {
     return AppBar(
+      
       shape: const Border(bottom: BorderSide(color: mainColor, width: 4)),
       elevation: 0,
       // bottomOpacity: 0,
@@ -86,7 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
       actions: [
         IconButton(
             onPressed: () => {
-                  //WRITE METHOD IN PROVIDER TO LOG OUT!!!!
                   context.read<ProviderUserData>().logout(),
                   context.read<ProviderSocket>().disconnectFromServer(),
                   context.read<ProviderServices>().resetServices(),

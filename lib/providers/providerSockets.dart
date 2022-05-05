@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sios_v1/models/authData.dart';
+import 'package:sios_v1/models/service.dart';
 import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/providers/providerUserData.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -14,6 +15,8 @@ class ProviderSocket with ChangeNotifier {
   var _serverStatus = ServerStatus.Offline;
   late Socket socket;
   late AuthData user;
+    String adminId = '621c19019cef936ea47c9645';
+
 
   void disconnectFromServer() {
     socket.disconnect();
@@ -29,7 +32,7 @@ class ProviderSocket with ChangeNotifier {
     try {
       // Configure socket transports must be sepecified
       socket = IO.io(
-          'http://10.1.25.46:4000/',
+          'https://sios-server.herokuapp.com/',
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .enableForceNew()
@@ -125,13 +128,47 @@ class ProviderSocket with ChangeNotifier {
         'category': category
       }
     };
-
+  
     socket.emit('depto-report', report);
+    //    print(report);
+  }
+
+  void editReport({
+    required String title,
+    required String description,
+    required String category,
+    required String id
+  }) {
+    var report = {
+      'to': adminId,
+      'from': user.user?.sId,
+      'report': {
+        '_id' : id,
+        'title': title,
+        'description': description,
+        'category': category
+      }
+    };
+
+    socket.emit('edit-report', report);
     //    print(report);
   }
 
   // Listen to all message events from connected users
   void handleMessage(Map<String, dynamic> data) {
     print(data);
+  }
+
+  void rateService(Service service, String comment, int rating) {
+    socket.emit('calificar-report',
+      {
+      'to': adminId,
+      'from': user.user?.sId,
+      'service': service.sId,
+      'grade': {
+        'score': rating,
+        'comment': comment
+              }
+      });
   }
 }

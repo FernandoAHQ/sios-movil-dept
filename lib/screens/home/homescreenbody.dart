@@ -13,7 +13,6 @@ import 'package:sios_v1/style.dart';
 
 import '../../models/service.dart';
 import '../../providers/providerUserData.dart';
-import '../reports/generateReport.dart';
 import '../viewReport/viewReport.dart';
 
 class HomeScreenBody extends StatelessWidget {
@@ -31,7 +30,7 @@ class HomeScreenBody extends StatelessWidget {
       decoration: const BoxDecoration(
         color: mainColor,
         border: Border(
-          top: BorderSide(width: 6.0, color: mainColor),
+          top: BorderSide(width: 0, color: mainColor),
         ),
       ),
       child: Column(children: [
@@ -79,34 +78,71 @@ class HomeScreenBody extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        DefaultTabController(
-            length: 2,
-            child: Column(
-              children: [
-                ClipRRect(
-                    borderRadius:
-                        const BorderRadius.vertical(top: Radius.circular(50)),
-                    child: Row(
-                      children: [
-                        buildTabBar(size, reportProvider),
+        Expanded(
+            child: Container(
+                child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(50)),
+          child: DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  Container(
+                    height: 70.0,
+                        decoration: BoxDecoration(color: Colors.white),
+                    child: TabBar(
+                      tabs: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Hoy",
+                                style: h2Style,
+                              ),
+                              const SizedBox(width: 10),
+                              Container(
+                                alignment: AlignmentDirectional.center,
+                                width: 28,
+                                height: 28,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: mainColor),
+                                child: Text(
+                                  reportProvider.getServices().length.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 24),
+                                ),
+                              )
+                            ]),
+                        Container(
+                          child: const Text(
+                            "Historial",
+                            style: h2Style,
+                          ),
+                        ),
                       ],
-                    )),
-                Container(
-                  decoration: const BoxDecoration(color: Colors.white),
-                  height: 540,
-                  width: size.width,
-                  child: TabBarView(
-                    children: [
-                      buildListView(context, reportProvider.getServices()),
-                      buildListView(context, reportProvider.getHistory())
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            )),
+                  Expanded(
+                    child: Container(
+                      decoration: const BoxDecoration(color: Colors.white),
+                      width: size.width,
+                      child: TabBarView(
+                        children: [
+                          buildListView(context, reportProvider.getServices()),
+                          buildListView(context, reportProvider.getHistory())
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        )))
       ]),
     );
   }
+ 
 
   Container buildTabBar(Size size, ProviderServices reportProvider) {
     return Container(
@@ -116,42 +152,7 @@ class HomeScreenBody extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
-        child: TabBar(
-          tabs: [
-            //Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const Text(
-                "Hoy",
-                style: h2Style,
-              ),
-              const SizedBox(width: 10),
-              Container(
-                alignment: AlignmentDirectional.center,
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50), color: mainColor),
-                child: Text(
-                  reportProvider.getServices().length.toString(),
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 24),
-                ),
-              )
-            ]),
-            Container(
-              child: const Text(
-                "Historial",
-                style: h2Style,
-              ),
-            ),
-          ],
-          //  )
-          //]
-        ));
+        child: SizedBox());
   }
 
   void viewReport(BuildContext context, Service _srv) {

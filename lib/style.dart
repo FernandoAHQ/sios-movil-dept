@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 const mainColor = Color.fromARGB(255,23,57,106);
 const accentColor1 = Color.fromARGB(255, 19, 63, 124);
 
+const accentOrange = Color.fromARGB(255, 255, 255, 255);
 //const mainColor = Colors.orange;
 //const accentColor1 = Color.fromARGB(255, 255, 145, 0);
 

@@ -16,13 +16,7 @@ class ProviderServices with ChangeNotifier {
   List<Service> services = [];
   List<String> categories = [];
 
-  String? sId;
-  String? department;
-  String? title;
-  String? description;
-  String? category;
-  bool? isAssigned;
-  DateTime? createdAt;
+
 
     readServices(List<dynamic> data){
       services = [];
@@ -40,7 +34,11 @@ class ProviderServices with ChangeNotifier {
             category:     (data[i]['report']['category']).toString(), 
             isAssigned:   (data[i]['report']['isAssigned']),
             createdAt:    (data[i]['report']['createdAt']).toString()
-            )
+            ),
+          asignedTo: AsignedTo(
+       name:   data[i]['assignedTo'] != null ? (data[i]['assignedTo']['name']).toString() : "",
+            imgUrl: data[i]['assignedTo'] != null ? (data[i]['assignedTo']['image']).toString() : "",
+          )
         );
 
         services.add(newService);
@@ -58,6 +56,7 @@ class ProviderServices with ChangeNotifier {
 
     //  print(response.statusCode);
   if (response.statusCode == 201) {
+    categories = [];
         final Map parsedData = jsonDecode(response.body);
         for(int i = 0; i < parsedData['categories'].length; i++){
           categories.add(parsedData['categories'][i]);
@@ -80,7 +79,7 @@ class ProviderServices with ChangeNotifier {
   if (response.statusCode == 200) {
         final Map data = jsonDecode(response.body);
         
-         print("FETCHING DATA");
+         print(data['services'][0]);
 
        for(int i = 0; i < data['services'].length; i++){
            Service newService = Service(
@@ -97,6 +96,11 @@ class ProviderServices with ChangeNotifier {
             isAssigned:   (data['services'][i]['report']['isAssigned']),
             createdAt:    (data['services'][i]['report']['createdAt']).toString()
             )
+        ,
+          asignedTo: AsignedTo(
+            name:   data['services'][i]['assignedTo'] != null ? (data['services'][i]['assignedTo']['name']).toString() : "",
+            imgUrl: data['services'][i]['assignedTo'] != null ? (data['services'][i]['assignedTo']['image']).toString() : "",
+          )
         );
         history.add(newService);
        }

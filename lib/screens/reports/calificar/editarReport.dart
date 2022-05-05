@@ -3,31 +3,34 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sios_v1/models/report.dart';
 import 'package:sios_v1/providers/providerServices.dart';
 import 'package:sios_v1/providers/providerSockets.dart';
 import 'package:sios_v1/style.dart';
 
-import '../../providers/providerUserData.dart';
+import '../../../providers/providerUserData.dart';
 
 
 
 
-class GenerateReport extends StatefulWidget {
-  const GenerateReport({Key? key}) : super(key: key);
+class EditReport extends StatefulWidget {
+ // const EditReport({Key? key}) : super(key: key);
+  Report report;
 
-
-  
-  // GenerateReport();
+  EditReport(this.report, {Key? key}) : super(key: key);
 
   @override
-  State<GenerateReport> createState() => _GenerateReportState();
+  State<EditReport> createState() => _EditReportState(report);
 }
 
-class _GenerateReportState extends State<GenerateReport> {
+class _EditReportState extends State<EditReport> {
   String _selectedValue = "null";
   late String _title, _description, _category;
+  Report report;
 
   final _formKey = GlobalKey<FormState>();
+
+  _EditReportState(this.report);
   
       //: super(key: key);
   @override
@@ -61,15 +64,15 @@ class _GenerateReportState extends State<GenerateReport> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(Icons.report_problem,
+                                  const Icon(Icons.edit,
                                         color: Colors.white,
                                         size: 80.0,),
-                                  const Text("Crear un Reporte", style: TextStyle(fontSize: 36.0),),
-                                  //const SizedBox(height: 5.0,),
+                                  const Text("Editar Reporte", style: TextStyle(fontSize: 36.0),),
                                   
                                   const SizedBox(height: 25.0,),
 
                                   TextFormField(
+                                    initialValue: report.title,
                                     style: reportFormStyle3,
                                     textInputAction: TextInputAction.next,
                                     decoration: const InputDecoration(
@@ -92,16 +95,15 @@ class _GenerateReportState extends State<GenerateReport> {
                                           ),
                                         ),
                                            focusedErrorBorder: OutlineInputBorder(
-                                       //   borderRadius: BorderRadius.circular(25.0),
                                           borderSide:  BorderSide(
                                             color: Color.fromARGB(255, 255, 255, 255),
                                             width: 1.0,
                                           ),
                                         ),
-                                                  //   border: ,
                                       
                                       labelStyle: reportFormStyle2,
                                       labelText: "Título de Reporte"
+                                      
                                       ),
                                       onSaved: (value){_title = value.toString();},
                                       validator: (value){
@@ -109,15 +111,14 @@ class _GenerateReportState extends State<GenerateReport> {
                                         return null;
                                       },
                                     ),
-                                  SizedBox(height: 15.0,),
+                                  const SizedBox(height: 15.0,),
                                   TextFormField(
+                                    initialValue: report.description,
                                     style: reportFormStyle3,
                                     textInputAction: TextInputAction.next,
                                     decoration: const InputDecoration(
-                                       // focusColor: Colors.white,
                                         fillColor: Colors.white,
                                         focusedBorder: OutlineInputBorder(
-                                        //  borderRadius: BorderRadius.circular(0),
                                           borderSide:  BorderSide(
                                             color: Color.fromARGB(255, 255, 255, 255),
                                           ),
@@ -128,20 +129,17 @@ class _GenerateReportState extends State<GenerateReport> {
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
-                                       //   borderRadius: BorderRadius.circular(25.0),
                                           borderSide:  BorderSide(
                                             color: Color.fromARGB(255, 255, 255, 255),
                                             width: 1.0,
                                           ),
                                         ),
                                            focusedErrorBorder: OutlineInputBorder(
-                                       //   borderRadius: BorderRadius.circular(25.0),
                                           borderSide:  BorderSide(
                                             color: Color.fromARGB(255, 255, 255, 255),
                                             width: 1.0,
                                           ),
                                         ),
-                                                  //   border: ,
                                       labelStyle: reportFormStyle2,
                                       labelText: "Descripción del Problema"),
                                       onSaved: (value){_description = value.toString();},
@@ -149,15 +147,14 @@ class _GenerateReportState extends State<GenerateReport> {
                                         if(value == null || value.isEmpty) return "Ingrese la Descripción del Problema";
                                         return null;
                                       },
-                                      //textAlign: TextAlign,
                                       maxLines: 10,
-                                      //    keyboardType: TextInputType.multiline,
 
                                     ),    
                                   const SizedBox(height: 15.0,),
 
  
                                   DropdownButtonFormField(
+                                        
                                         dropdownColor: mainColor,
                                         decoration: const InputDecoration(
                                           enabledBorder: OutlineInputBorder(
@@ -176,14 +173,12 @@ class _GenerateReportState extends State<GenerateReport> {
                                           ),
                                         ), 
                                         errorBorder: OutlineInputBorder(
-                                       //   borderRadius: BorderRadius.circular(25.0),
                                           borderSide:  BorderSide(
                                             color: Color.fromARGB(255, 255, 255, 255),
                                             width: 1.0,
                                           ),
                                         ), 
                                         focusedErrorBorder: OutlineInputBorder(
-                                       //   borderRadius: BorderRadius.circular(25.0),
                                           borderSide:  BorderSide(
                                             color: Color.fromARGB(255, 255, 255, 255),
                                             width: 1.0,
@@ -191,7 +186,6 @@ class _GenerateReportState extends State<GenerateReport> {
                                         ),
                                         focusColor: Colors.black,
                                         ),
-                                        //borderRadius: BorderRadius.circular(0),
                                         style: reportFormStyle2,
                                         value: _selectedValue,
                                         onSaved: (value){_category = value.toString();},
@@ -229,13 +223,12 @@ class _GenerateReportState extends State<GenerateReport> {
                                         ),
 
                                        MaterialButton( 
-                                     //    key: _formKey,     
                                           onPressed: (){
                                                 if (_formKey.currentState!.validate()) {
                                                   _formKey.currentState!.save();
-                                                  _socket.sendReport(title: _title, description: _description, category: _category);
-                                                  //_socket.sendReport(_title, _description, _category);
-                                                  Navigator.of(context).pop();
+                                                  _socket.editReport(title: _title, description: _description, category: _category, id: report.sId.toString());
+                                                  int count = 0;
+                                                  Navigator.of(context).popUntil((_) => count++ >= 2);
                                                 }
                                         },
                                         child: const Text("Enviar", style: TextStyle(
@@ -243,8 +236,7 @@ class _GenerateReportState extends State<GenerateReport> {
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: 26.0),
                                                   ),
-                                        shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(2), side: const BorderSide(color: Colors.white) ),
-                                        
+                                        shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(2), side: const BorderSide(color: Colors.white), ),
                                         
                                         ),
                                      ],
@@ -263,11 +255,7 @@ class _GenerateReportState extends State<GenerateReport> {
       
     );
   
-  }
-
-
-
-
+  } 
 List<DropdownMenuItem<String>> get dropOptions{
   List cats = context.read<ProviderServices>().getCategories();
   List<DropdownMenuItem<String>> menuItems = [];

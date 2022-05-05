@@ -15,6 +15,7 @@ class ProviderUserData with ChangeNotifier {
   late AuthData data;
   bool isLoading = false;
 
+
   void setLoading(bool l) {
     isLoading = l;
   }
