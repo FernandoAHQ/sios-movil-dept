@@ -20,6 +20,7 @@ class ProviderServices with ChangeNotifier {
 
     readServices(List<dynamic> data){
       services = [];
+      print("Recieving REPORTS");
       for(int i = 0; i < data.length; i++){
         Service newService = Service(
           sId:       (data[i]['_id']).toString(),
@@ -40,7 +41,7 @@ class ProviderServices with ChangeNotifier {
             imgUrl: data[i]['assignedTo'] != null ? (data[i]['assignedTo']['image']).toString() : "",
           )
         );
-
+        print(newService.report.title);
         services.add(newService);
           
                  notifyListeners();
@@ -77,9 +78,9 @@ class ProviderServices with ChangeNotifier {
 
     //  print(response.statusCode);
   if (response.statusCode == 200) {
+        history = [];
         final Map data = jsonDecode(response.body);
         
-         print(data['services'][0]);
 
        for(int i = 0; i < data['services'].length; i++){
            Service newService = Service(

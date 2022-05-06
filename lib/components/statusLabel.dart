@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sios_v1/main.dart';
 
 import '../style.dart';
 
@@ -17,8 +18,23 @@ class StatusLabel extends StatelessWidget {
 
     Color color;
      switch(state){
-            case "not-assigned":{
-              color = mainColor;
+            case "Sin Asignar":{
+              color = Colors.grey;
+              break;
+            } case "Asignado":{
+              color = Colors.blueAccent;
+              break;
+            } case "Pendiente":{
+              color = Colors.deepOrange;
+              break;
+            } case "Cancelado":{
+              color = Colors.red;
+              break;
+            } case "Terminado":{
+              color = Colors.black;
+              break;
+            } case "En Progreso":{
+              color = Colors.green;
               break;
             }
             default:{ 

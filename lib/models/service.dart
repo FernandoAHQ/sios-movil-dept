@@ -15,11 +15,45 @@ class Service {
     required this.updatedAt,
     required this.report,
     required this.asignedTo
-  });
+  }){
+    switch(status){
+      case 'assigned':{
+        status = 'Asignado';
+        break;
+      }
+      case 'not-assigned':{
+        status = 'Sin Asignar';
+        break;
+      }
+      case 'pending':{
+        status = 'Pendiente';
+        break;
+      }
+      case 'cancelled':{
+        status = 'Cancelado';
+        break;
+      }
+      case 'finalized':{
+        status = 'Terminado';
+        break;
+      } 
+      case 'in-progress':{
+        status = 'En Progreso';
+        break;
+      }
+       default:{
+        status = 'Otro';
+        break;
+      }
+    }
+  }
 
   Report getReport() {
     return report;
   }
+
+
+
 }
 
 class AsignedTo {

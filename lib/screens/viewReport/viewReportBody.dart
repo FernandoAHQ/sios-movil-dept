@@ -100,8 +100,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
         children:  [
            
                     Text(_report.title!, style: h1Style,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis),
+                    overflow: TextOverflow.fade),
   
           const SizedBox(height: 10.0,),
           Row(
@@ -161,7 +160,10 @@ class _ViewReportBodyState extends State<ViewReportBody> {
               ),
             ),
           ),
-         _report.isAssigned !? 
+
+        
+
+         _service.status == 'Terminado' ? 
                   ElevatedButton(onPressed: ()=>calificar(_service), 
                     
                     style: ButtonStyle(
@@ -177,8 +179,9 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                         ),
                     child: const Text("Calificar Servicio", style: buttonStyle,),
                   )
-                  :
-                  ElevatedButton(onPressed: () => editar(_report), 
+                  : SizedBox(),
+
+                  !_report.isAssigned !? ElevatedButton(onPressed: () => editar(_report), 
                     
                     style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
@@ -192,7 +195,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                           )
                         ),
                     child: const Text("Editar Servicio", style: buttonStyle,),
-                  )
+                  ): SizedBox()
                   
         ],
       ),

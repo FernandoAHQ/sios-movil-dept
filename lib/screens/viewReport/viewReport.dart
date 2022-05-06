@@ -13,6 +13,7 @@ import 'package:sios_v1/screens/reports/heroRoute.dart';
 import 'package:sios_v1/screens/viewReport/viewReportBody.dart';
 import 'package:sios_v1/style.dart';
 
+import '../../components/navBar.dart';
 import '../../models/service.dart';
 
 class ViewReport extends StatefulWidget {
@@ -48,48 +49,14 @@ class _ViewReportState extends State<ViewReport> {
     return Scaffold(
       backgroundColor: mainColor,
    
-      appBar: PreferredSize(
-
-        preferredSize: const Size.fromHeight(70),
-        child: createBar(),
+       appBar: AppBar(
+        backgroundColor: mainColor,
+        shape: const Border(bottom: BorderSide(color: mainColor, width: 4)),
+        elevation: 0,
       ),
-      //   body: Image(image:NetworkImage(providerUser.data.user?.image ?? "")),
-
+      drawer: const NavBar(),
       body: ViewReportBody(service),
     );
   }
-
-  AppBar createBar() {
-    return AppBar(
-       shape:const Border(
-    bottom: BorderSide(
-      color: mainColor,
-      width: 4
-    )
-  ),
-      elevation: 0,
-     // bottomOpacity: 0,
-      backgroundColor: mainColor,
-      leading: IconButton(
-          onPressed: () => {},
-          icon: const Icon(
-            Icons.menu,
-            size: 50,
-          )),
-      actions: [
-        IconButton(
-            onPressed: () => {
-                  //WRITE METHOD IN PROVIDER TO LOG OUT!!!!
-             //     context.read<ProviderUserData>().logout(),
-             //     context.read<ProviderSocket>().disconnectFromServer(),
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()))
-                },
-            icon: const Icon(Icons.logout))
-      ],
-      
-    );
-  }
+ 
 }

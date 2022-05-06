@@ -75,4 +75,7 @@ const descStyle = TextStyle(
               const buttonStyle = TextStyle(
                 fontWeight: FontWeight.w400, fontSize: mediumTextSize, color: Colors.white70
                 );
+                            const menuItemStyle = TextStyle(
+                fontWeight: FontWeight.w400, fontSize: mediumTextSize, color: Colors.white70
+                );
               
