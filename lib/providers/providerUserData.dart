@@ -41,31 +41,21 @@ class ProviderUserData with ChangeNotifier {
 
   Future<bool> authToken() async {
     if (await storage.read(key: "_token") == null) {
-      accessToken = "";
-      print("NO TOKEN STORED -> LOGIN");
+      return false;
     } else {
-      print("TOKEN FOUND");
       accessToken = (await storage.read(key: "_token")) as String;
     }
 
-    print("CHECKING TOKEN");
-//   print(accessToken);
     notifyListeners();
 
     try {
-      print("SENDING TOKEN");
       final response = await HTTPService().sendToken(accessToken);
 
       if (response.statusCode == 200) {
         final Map parsedData = jsonDecode(response.body);
-        print("RESPONSE RECIEVED");
 
         await storage.write(key: "_token", value: parsedData["accessToken"]);
-        // print(await storage.read(key: "_token"));
-        data = AuthData.fromJson(
-            parsedData); //(response.body as Map<String, dynamic>);
-
-        print(parsedData.toString());
+        data = AuthData.fromJson(parsedData);
 
         return true;
       }

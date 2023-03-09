@@ -41,7 +41,7 @@ const h2Style = TextStyle(
                 );
 
 const h3Style = TextStyle(
-                fontWeight: FontWeight.w500, fontSize: bodyTextSize, color: Color.fromARGB(255, 104, 104, 104)
+                fontWeight: FontWeight.w500, fontSize: smallTextSize, color: Color.fromARGB(255, 104, 104, 104)
                 );
                 
 const h4Style = TextStyle(

@@ -5,7 +5,6 @@ import 'package:sios_v1/screens/home/homescreen.dart';
 import 'package:sios_v1/screens/login/loginScreen.dart';
 import 'package:sios_v1/style.dart';
 
-import '../welcome/welcomeScreen.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);

@@ -10,6 +10,7 @@ import 'package:sios_v1/models/report.dart';
 import 'package:sios_v1/models/service.dart';
 import 'package:sios_v1/style.dart';
 
+import '../../env.dart';
 import '../../providers/providerUserData.dart';
 import '../reports/calificar/calificarReport.dart';
 import '../reports/calificar/editarReport.dart';
@@ -73,7 +74,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                     children: [
                       Container(
                        // width: size.width,
-                        padding: const EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(0),
                       //  decoration: const BoxDecoration(border: BorderDirectional(bottom: BorderSide(color: Colors.black, width: 2))),
                         child: buildReportView(size)
                       ),
@@ -140,7 +141,7 @@ class _ViewReportBodyState extends State<ViewReportBody> {
                               child: FadeInImage.assetNetwork(
                                  width: 50,
                                  height: 50,
-                                 image: _service.asignedTo!.imgUrl ?? "",//context.read<ProviderUserData>().data.user?.image ?? "",
+                                 image: urlBase + "/api/images/users/" +  _service.asignedTo!.imgUrl.toString(),//context.read<ProviderUserData>().data.user?.image ?? "",
                                  placeholder: 'assets/images/profilePlaceholder.png',
                                ),
                               borderRadius: BorderRadius.circular(50),

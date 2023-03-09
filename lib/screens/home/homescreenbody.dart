@@ -45,7 +45,6 @@ class HomeScreenBody extends StatelessWidget {
                 child: FadeInImage.assetNetwork(
                   width: 60,
                   height: 60,
-//                  image: "https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc",
                   image:
                       urlBase + "/api/images/users/" + (context.read<ProviderUserData>().data.user?.image).toString(),
                   placeholder: 'assets/images/profilePlaceholder.png',
@@ -56,7 +55,6 @@ class HomeScreenBody extends StatelessWidget {
                 width: 15.0,
               ),
               Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
