@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sios_v1/components/menuItem.dart';
+import 'package:sios_v1/env.dart';
 import 'package:sios_v1/providers/functions.dart';
 import 'package:sios_v1/style.dart';
 
@@ -26,7 +27,7 @@ class NavBar extends StatelessWidget {
                   width: 60,
                   height: 60,
                   image:
-                      context.read<ProviderUserData>().data.user?.image ?? "",
+                      urlBase + '/api/images/users/' + (context.read<ProviderUserData>().data.user?.image).toString(),
                   placeholder: 'assets/images/profilePlaceholder.png',
                 ),
                 borderRadius: BorderRadius.circular(50),
@@ -54,10 +55,10 @@ class NavBar extends StatelessWidget {
             ],
           ),
         ),
-          MenuItem(title: "Inicio", icon: Icons.home, callback: ()=>Functions.home(context)),
-          MenuItem(title: "Crear Reporte", icon: Icons.report_problem, callback: ()=>Functions.createReport(context)),
-          MenuItem(title: "Ajustes", icon: Icons.settings, callback: ()=>{}),
-          MenuItem(title: "Cerrar Session", icon: Icons.logout, callback: ()=>{Functions.logout(context)}),
+     //     MenuItemElement(title: "Inicio", icon: Icons.home, callback: ()=>Functions.home(context)),
+          MenuItemElement(title: "Crear Reporte", icon: Icons.report_problem, callback: ()=>Functions.createReport(context)),
+   //       MenuItemElement(title: "Ajustes", icon: Icons.settings, callback: ()=>{}),
+          MenuItemElement(title: "Cerrar Session", icon: Icons.logout, callback: ()=>{Functions.logout(context)}),
 
        ],
      ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:sios_v1/components/reportTile.dart';
+import 'package:sios_v1/env.dart';
 import 'package:sios_v1/main.dart';
 import 'package:sios_v1/models/report.dart';
 import 'package:sios_v1/providers/providerServices.dart';
@@ -21,7 +22,7 @@ class HomeScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportProvider = Provider.of<ProviderServices>(context);
-
+    print(context.read<ProviderUserData>().data.user?.image);
     Size size = MediaQuery.of(context).size;
 
     return Container(
@@ -46,7 +47,7 @@ class HomeScreenBody extends StatelessWidget {
                   height: 60,
 //                  image: "https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc",
                   image:
-                      context.read<ProviderUserData>().data.user?.image ?? "",
+                      urlBase + "/api/images/users/" + (context.read<ProviderUserData>().data.user?.image).toString(),
                   placeholder: 'assets/images/profilePlaceholder.png',
                 ),
                 borderRadius: BorderRadius.circular(50),

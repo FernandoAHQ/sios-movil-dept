@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class HTTPService {
-  final String urlBase = 'https://sios-server.herokuapp.com/api';
+  // final String urlBase = 'https://arsic.tectoucan.com/api';
+  final String urlBase = 'http://192.168.100.10:4100/api';
 
   Future<Response> getCategories() async {
     return await http.get(Uri.parse('$urlBase/reports/categories'),

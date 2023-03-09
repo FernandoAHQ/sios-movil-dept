@@ -29,7 +29,7 @@ const loginHeadStyle = TextStyle(
                 );
                 
 const headStyle = TextStyle(
-                fontWeight: FontWeight.w600, fontSize: mediumTextSize, color: Colors.white
+                fontWeight: FontWeight.w600, fontSize: bodyTextSize, color: Colors.white
                 );
 
 const h1Style = TextStyle(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sios_v1/providers/providerServices.dart';
@@ -8,6 +10,15 @@ import 'package:sios_v1/screens/loading/loadingBody.dart';
 import 'package:flutter/services.dart';
 import 'package:sios_v1/screens/login/loginScreen.dart';
 import 'package:sios_v1/screens/viewReport/viewReport.dart';
+
+ class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
+
 //https://sios-server.herokuapp.com
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +26,9 @@ void main() {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   runApp(const MyApp());
+  HttpOverrides.global = MyHttpOverrides();
+
+
 }
 
 class MyApp extends StatelessWidget {

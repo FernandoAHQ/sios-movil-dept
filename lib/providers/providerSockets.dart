@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:sios_v1/env.dart';
 import 'package:sios_v1/models/authData.dart';
 import 'package:sios_v1/models/service.dart';
 import 'package:sios_v1/providers/providerServices.dart';
@@ -32,7 +33,7 @@ class ProviderSocket with ChangeNotifier {
     try {
       // Configure socket transports must be sepecified
       socket = IO.io(
-          'https://sios-server.herokuapp.com/',
+          urlBase,
           IO.OptionBuilder()
               .setTransports(['websocket'])
               .enableForceNew()

@@ -50,7 +50,7 @@ class _LoginFormState extends State<LoginForm> {
         //mainAxisAlignment: MainAxisAlignment.start,
 
         children: [
-          SizedBox(height: size.height * .2),
+          SizedBox(height: size.height * .1),
           Image.asset(
             "assets/images/logo.png",
             height: size.height * .3,

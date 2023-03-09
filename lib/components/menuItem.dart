@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:sios_v1/style.dart';
 
-class MenuItem extends StatelessWidget {
+class MenuItemElement extends StatelessWidget {
 
   String title;
   Function callback;
   IconData icon;
   
 
-  MenuItem({Key? key, required this.title, required this.callback, required this.icon}) : super(key: key) {
+  MenuItemElement({Key? key, required this.title, required this.callback, required this.icon}) : super(key: key) {
    
   }
   
